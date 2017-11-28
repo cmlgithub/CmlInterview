@@ -1,0 +1,26 @@
+2.一切都是对象
+    2.1用引用操纵对象:对象存储于堆中,对象的引用存储于栈中
+        寄存器(位于处理器中)
+        栈(RAM)
+        堆(RAM)
+        常量存储(一般在代码内部)
+        非RAM存储 (持久化对象,流对象等)
+     2.2基本类型 (1 byte == 8 bits)
+        boolean        false
+        char    16-bit 空
+        float   32bits 0.0
+        double  64bits 0.0
+        int     32bits 0
+        long    64bits 0
+        byte    8bits  0
+        short   16bits 0
+     2.3永远不需要销毁对象
+        作用域
+     2.4 类
+     2.5 方法,参数和返回值
+     2.6 java程序
+        类的命名(包的概念)
+        import
+        static
+        注释(javadoc)
+总结:本章对Java的进行了初步的介绍和简单构建一个java程序编译,运行.对java对象的存储方法和基本类型的介绍还有一些基本的Java概念
