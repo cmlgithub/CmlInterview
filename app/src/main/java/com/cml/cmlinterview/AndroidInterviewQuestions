@@ -1,0 +1,1 @@
+1.Android 类的加载器 : apk内部是dex文件,dex文件是对class的重新打包而并不是简单的压缩,是对class的各种函数表和变量表进行优化产生的新文件,使用DexClassLoader进行加载

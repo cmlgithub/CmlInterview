@@ -24,3 +24,19 @@
         static
         注释(javadoc)
 总结:本章对Java的进行了初步的介绍和简单构建一个java程序编译,运行.对java对象的存储方法和基本类型的介绍还有一些基本的Java概念
+
+3.操作符
+    + -  * / %(取余 2&5=2 ,7%5 = 2) += -= ++ -- > < >= <= && || ! 1.39E-43(指数计数法 代表1.39*10^-43) <<(左移相当于*2^n 例:4<<2=4*2^2=16) >> boolean?value0:value1
+    截尾和取舍:
+        float m = 0.7;
+        int n = (int)m;(n=0) 截尾
+        四舍五入:Math.round(m) = 1;
+    提升:对char,byte和short进行算法运算会自动提升到int
+        int与float运算也会自动被提升到float类型,double也一样
+    溢出问题:
+        int big = Integer.MAX_VALUE;
+        int bigger = big * 4;(这时的bigger计算的结果为-4,并没有任何的错误显示,但是结果却是错误的)
+总结:本章对java中的操作符作了介绍,并指出了在运算过程中容易出错的地方
+4.控制执行流程
+    if-else while do-while for return break continue switch
+总结:本章对java中的流程控制涉及到的语法做了介绍

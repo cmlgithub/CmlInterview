@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import java.MyMath;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String tag = "CML";
@@ -15,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
     private long  testLong;
     private float  testFloat;
     private double  testDouble;
+
+    private String s;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +34,10 @@ public class MainActivity extends AppCompatActivity {
         Log.e(tag,testFloat+"");
         Log.e(tag,testDouble+"");
 
-        TestClass testClass = new TestClass();
-        Log.e(tag,"static:a1"+TestClass.a);
-        Log.e(tag,"object:a1"+testClass.a);
-        TestClass.a++;
-        TestClass testClass2 = new TestClass();
-        Log.e(tag,"static:a1"+TestClass.a);
-        Log.e(tag,"object:a1"+testClass2.a);
+        Log.e(tag,""+MyMath.class.getName());
+        int m = Integer.MAX_VALUE;
+        int n = m *4;
+        Log.e(tag,""+n);
     }
 
 

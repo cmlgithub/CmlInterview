@@ -35,3 +35,30 @@
                   当执行n次(根据年龄阙值来定)gc后依然存活的对象会被保存到年老代中
             年老代 : 通常会在此区域被占满的时候触发Full GC,回收整个堆内存
             持久代 : 用于存放静态文件,例如:java类,方法....
+ 4.类的加载机制
+    类的加载并不是一次性加载所有的类而是动态的,也就是在需要的时候才会通过ClassLoader将类加载进内存,这里的加载机制是双亲机制
+    类的加载器:最顶层依次往下分别是BootstrapClassLoader,ExtensionClassLoader,AppClassLoader
+        Bootstrap ClassLoader(启动类加载器):是java最顶层的加载器(使用的是非java代码实现的用的是C++,所以在java中获取的时候会返回null),随着jvm的启动就加载了
+        Extension ClassLoader(标准扩展类加载器):负责加载<JAVA_HOME>/lib/ext或者java.ext.dir路径上指定的类库到内存中
+        Application ClassLoader:负责加载用户类路径上指定的库到内存中
+    双亲机制:当一个类需要被加载的时候,加载器会优先把此任务给到父类加载器来实现,如果父类都没有加载才会尝试自己加载,成功则返回,否则抛出ClassNotFoundException,这样的好处就是避免了类的重复加载
+            例如:当要用到String的时候,AppClassLoader将任务交给ExtClassLoader,而ExtClassLoader又会将任务交给BootstrapClassLoader发现String类已经被加载过了,就将其返回
+ 5.能否自己写一个类命名java.lang.String或者java.lang.System?
+    亲自试验结果:可以这样写,但是在其余的地方引用的使用,会引用不到,因为得到的总是java自己提供的String或者System.具体原理:因为双亲加载机制的原因,自己写的类并不会被加载到,因此无法使用
+
+ 6.集合框架
+    Collection
+        List : 元素有序,可重复
+            ArrayList : 内部采用的是数组(一整块连续的内存)实现,Object[] ,当容量不足的时候会按照1.5倍的容量进行增长,查询速度快,增删效率低
+            LinkedList : 内部采用的是链表实现,内存地址不连续,查询速度慢,增删效率高
+        Set : 元素无序,不重复
+            HashSet : 内部采用的HashMap来实现,其中用Map的key来保存元素,Map的Value统一固定,因为key不能重复所以,元素不可重复
+            TreeSet : 内部采用TreeMap来实现
+        Vector (线程安全):  类似于ArrayList ,内部也是采用数组的方式实现,扩容方式:当前容量的两倍和当前容量+扩容因子(可自定义)两者之间取大者,因是线程安全所以效率不如ArrayList
+    Map
+        HashMap : 内部是数组结构,数组的每一项又是一个链表,允许null键和null值,其中null键只能存在一个,null值可存在多个.内部是键值对的形式保存在Entry中,其中key必须实现hashcode()和equals()方法(因为在put元素的时候首先通过hashcode()计算要存储的下标的位置,
+                    然后遍历该下标下存储的元素,通过equals()对比,相同则进行替换Value,不同则通过链的形式保存在此位置下)
+            LinkedHashMap : 继承自HashMap,存在了一个双向循环链表,保证了迭代顺序(也就是元素的放入顺序)
+        TreeMap :内部采用红黑树实现,key是有序存在的
+        Hashtable (线程安全):不可使用null键和null值
+        ConcurrentHashMap(线程安全) : 是支持高并发和高吞吐量的HashMap
