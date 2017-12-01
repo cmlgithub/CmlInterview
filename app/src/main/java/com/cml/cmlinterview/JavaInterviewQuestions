@@ -62,3 +62,29 @@
         TreeMap :内部采用红黑树实现,key是有序存在的
         Hashtable (线程安全):不可使用null键和null值
         ConcurrentHashMap(线程安全) : 是支持高并发和高吞吐量的HashMap
+ 7.volatile 原理 http://www.cnblogs.com/paddix/p/5428507.html
+
+ 8.Integer中的127和128问题
+    在Integer中有个内部类IntegerCache,其内部用数组缓存了-128-->127之间的数值
+    Integer integer = new Integer(5);
+    Integer integer2 = new Integer(5);
+    integer==integer2;//false(比较的是对象的地址)
+
+    Integer integer = new Integer(5);
+    Integer integer2 = 5;
+    integer==integer2;//false
+
+    Integer integer = 127;
+    Integer integer2 = 127;
+    integer==integer2;//true
+
+    Integer integer = 128;
+    Integer integer = 128;
+    integer == integer2;//false
+
+    Integer integer = 127;
+    integer == 127;//true
+
+    Integer integer = 128;
+    integer == 128;//false
+
