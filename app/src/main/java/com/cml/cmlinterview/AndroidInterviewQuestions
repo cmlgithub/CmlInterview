@@ -1,1 +1,26 @@
 1.Android 类的加载器 : apk内部是dex文件,dex文件是对class的重新打包而并不是简单的压缩,是对class的各种函数表和变量表进行优化产生的新文件,使用DexClassLoader进行加载
+
+2.Handler机制
+   其实就是Handler,Looper,Message,MessageQueue之间的合作
+   Handler 负责发送消息和创建Looper
+    在new Handler()的时候,就会初始化Looper(),所以在分线程用Handler的时候要手动的创建Looper,然后Handler通过send方法发送消息到MessageQueue中(post方法其实也是被
+封装成了Message发送了出去)
+    Looper主要就是prepare()和loop()方法
+        prepare()方法用来保证一个线程只能存在一个Looper和实例化Looper
+        loop()其实是一个死循环,循环从MessageQueue中获取消息,当没有消息的时候阻塞,当有消息的时候去除消息,调用handler的dispatchMessage()
+        因为Looper是在创建Handler的时候创建的,所以调用loop来获取的消息,有消息之后调用了Handler的dispatchMessage-->handleMessage()来处理消息实现了线程的切换
+3.view的绘制流程
+    onMeasure():测量视图的大小
+    onLayout():确定view的位置,进行页面布局
+    onDraw():绘制
+
+4.Android事件分发处理机制
+    以一个简单的button为例(Activity中包含一个ViewGroup,ViewGroup中包含一个Button)
+    当touch或者click事件发生在了button的view上的时候,activity首先收到这个事件(事件相关的信息会被封装成MotiveEvent传递过来)
+    Activity:首先调用dispatchTouchEvent()来对事件进行分发,如果ViewGroup和View都没有消费事件,那么最终的事件将有Activity消费
+    ViewGroup:当ViewGroup()收到这个事件的时候也会调用dispatchTouchEvent()来进行事件的分发,在分发的过程中会首先调用ViewGroup的onInterceptTouchEvent()来判断是否拦截事件
+当拦截事件的时候,也就代表事件在此ViewGroup被消费,则不会继续向下传递,会导致view收不到此次的事件;而当不拦截事件的时候会继续向下传递到View的dispatchTouchEvent(),如果ViewGroup中
+的view没有消费事件,那么事件在下层转了一圈之后还会回到ViewGroup中的onTouchEvent()方法来进行处理
+    View:事件传递到此,也依然会调用dispatchTouchEvent()来对事件进行分发,在dispatchTouchEvent()方法中,会首先调用mOnTouchListener.onTouch()方法(也就是我们通常设置的
+view.setOnTouchListener()中重写的onTouch()方法)如果onTouch返回true消费了事件,则事件到此停止,不在继续处理,否则若返回了false,则事件继续,然后会执行onTouchEvent()方法,而在
+onTouchEvent()方法的up事件中执行了onClick()方法,

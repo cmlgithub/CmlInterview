@@ -3,35 +3,44 @@ package com.cml.cmlinterview;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
-
-    public static final String tag = "CML";
+    private boolean isTouchMove;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ShareData.main(new String[5]);
 
-        Integer integer = new Integer(5);
-        Integer integer2 = 5;
+        Button mButton = (Button) findViewById(R.id.button);
+        LinearLayout mLinear = (LinearLayout) findViewById(R.id.linear);
 
+        mButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.e("CML","mButton.setOnTouchListener:Down");
+                return false;
+            }
+        });
 
-        if(integer==integer2)
-            Log.e(tag,"integer==integer2:true");
-        else
-            Log.e(tag,"integer==integer2:false");
+        mButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.e("CML","mButton.setOnTouchListener");
+                return false;
+            }
+        });
 
-//        if(integer==5)
-//            Log.e(tag,"integer==5:true");
-//        else
-//            Log.e(tag,"integer==5:false");
-//
-//        if(integer==128)
-//            Log.e(tag,"integer==128:true");
-//        else
-//            Log.e(tag,"integer==128:false");
-
+        mLinear.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.e("CML","mLinear.setOnTouchListener");
+                return false;
+            }
+        });
     }
 
 
