@@ -24,3 +24,32 @@
     View:事件传递到此,也依然会调用dispatchTouchEvent()来对事件进行分发,在dispatchTouchEvent()方法中,会首先调用mOnTouchListener.onTouch()方法(也就是我们通常设置的
 view.setOnTouchListener()中重写的onTouch()方法)如果onTouch返回true消费了事件,则事件到此停止,不在继续处理,否则若返回了false,则事件继续,然后会执行onTouchEvent()方法,而在
 onTouchEvent()方法的up事件中执行了onClick()方法,
+5.Binder机制
+    Binder机制主要涉及三个东西：(可见图：drawable-->binder.png)Client Server ServiceManager
+    其中Client和Server是相对的，谁发消息谁就是Client，当Client需要调用Server中的方法的时候，会向ServiceManager发起请求
+而Server会事先在ServiceManager中进行注册，当ServiceManager收到Client的请求的时候，并不会直接把Server的对象给到Client
+而是把给了Client一个代理对象（Proxy），Client会调用Proxy的对应方法，而Proxy会去调用Server的对应发法，并且拿到返回结果给到Client
+6.android 中的进程
+    前台进程   可见进程   服务进程   后台进程  空进程
+7.内存泄漏，内存溢出及内存泄漏产生的原因
+    内存泄漏：内存空间在使用后没有及时释放，gc无法对其进行回收
+    内存溢出：内存不够用导致的程序崩溃，内存泄漏到一定程度会导致内存溢出
+
+    Android 常见内存泄漏：
+        1.static 性质的activity引用，没有及时的释放导致
+        2.活在Activity生命周期意外的线程持有activity的引用导致
+        3.资源对象没有关闭导致（例如Cursor等）
+        4.构造Adapter的时候没有使用convertView来缓存view导致
+        ...
+8.图片占用的内存大小和图片在磁盘上占用的大小一样吗，怎么计算一张图片的占用的内存大小？
+    两者本质上不是一个概念，只不过是单位一样而已，不能弄混淆，磁盘只是在磁盘上的占用大小，内存大小指的是把这张图片加载到内存以后占用的内存空间
+
+    计算图片占用的内存大小：width*height*一个像素占用的内存大小  实际中会跟图片的存放位置也有关系在xhdpi和xxhdpi占用的内存大小是不一样的，android会对图片进行缩放
+    例如：一个width：800，height:600,大小为100k的图片，占用的内存大小（这里假设不会进行缩放）：800*600*4byte=1875kb=1.83M
+9.加载Bitmap怎么避免内存溢出
+    采用更加节省内存的编码：isPreferredConfig（例如将默认的ARGB_8888改为RGB_565可节约一般的内存），
+    降低图片的分辨率：inSampleSize（例如将inSampleSize=2;会将图片的宽和高缩小一半,结果将是实际占用的内存大小会缩小4倍）
+    不将图片加载到内存中（用在只需要获取图片信息而不需要显示的情况下）：inJustDecodeBounds 设置为true
+
+
+
