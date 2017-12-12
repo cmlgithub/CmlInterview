@@ -50,6 +50,9 @@ onTouchEvent()方法的up事件中执行了onClick()方法,
     采用更加节省内存的编码：isPreferredConfig（例如将默认的ARGB_8888改为RGB_565可节约一般的内存），
     降低图片的分辨率：inSampleSize（例如将inSampleSize=2;会将图片的宽和高缩小一半,结果将是实际占用的内存大小会缩小4倍）
     不将图片加载到内存中（用在只需要获取图片信息而不需要显示的情况下）：inJustDecodeBounds 设置为true
-
+10.LRUCache算法是怎么样实现的
+    LRUCache内部采用LinkHashMap和一个maxSize来结合实现，LinkHashMap除了要做HashMap的事情，还维护来一个LRU的顺序，当
+每次get对象的时候会将该对象移到链表的尾部，同样put新对象的时候也放到链表的尾部（在put的时候会计算所有缓存图片的总大小，小于
+maxSize则put，若大于maxSize会先将最久添加的图片移除再put），因此在移除的时候只需要将头部的（近期最少使用的）移除即可
 
 
